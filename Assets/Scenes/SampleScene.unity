@@ -598,7 +598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &774176896
 Transform:
   m_ObjectHideFlags: 0
@@ -1523,7 +1523,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1843817935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,9 +1536,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9aedd592c92374db9477058c91ed19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pipeline
-  mousePosition: {x: 0, y: 0}
+  oldMousePosition: {x: 0, y: 0}
+  newMousePosition: {x: 0, y: 0}
   progress: 0
   duration: 0.1
+  totalMagnatude: 0
 --- !u!4 &1843817936
 Transform:
   m_ObjectHideFlags: 0
@@ -1593,5 +1595,5 @@ SceneRoots:
   - {fileID: 619394802}
   - {fileID: 774176896}
   - {fileID: 965593620}
-  - {fileID: 1212501613}
   - {fileID: 1843817936}
+  - {fileID: 1212501613}
