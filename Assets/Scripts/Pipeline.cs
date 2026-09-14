@@ -12,6 +12,8 @@ public class Pipeline : MonoBehaviour
 
     private void Update()
     {
+        newMousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+
         if (Mouse.current.leftButton.isPressed)
         {
             progress += Time.deltaTime;
@@ -19,7 +21,7 @@ public class Pipeline : MonoBehaviour
             if (progress > duration)
             {
                 newMousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-                Debug.DrawLine(oldMousePosition, newMousePosition, Color.white);
+                Debug.DrawLine(oldMousePosition, newMousePosition, Color.white, 20);
 
                 //Total Magnatude
                 //a^2 + b^2 = c^2

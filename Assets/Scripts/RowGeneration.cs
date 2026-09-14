@@ -28,8 +28,7 @@ public class RowGeneration : MonoBehaviour
             //Left && Right
             Debug.DrawLine(new Vector2(-0.5f + i * spacing, 0.5f), new Vector2(0.5f + i * spacing, 0.5f), Color.white);
             Debug.DrawLine(new Vector2(-0.5f + i * spacing, -0.5f), new Vector2(0.5f + i * spacing, -0.5f), Color.white);
-        }
-                
+        }                
     }
     public void GenerateSquares()
     {
