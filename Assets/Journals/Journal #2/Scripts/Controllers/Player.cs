@@ -50,6 +50,10 @@ public class Player : MonoBehaviour
 
         DetectAsteroids(maxRange, asteroidTransforms);
     }
+    private void SpawnBombAtOffset(Vector3 inOffset)
+    {
+        Instantiate(bombPrefab, transform.position + inOffset, Quaternion.identity);
+    }
     private IEnumerator SpawnBombAtOffsetUpdate()
     {
         yield return new WaitForSeconds(delay);
@@ -58,10 +62,6 @@ public class Player : MonoBehaviour
         spawnBombCoroutine = null;
 
         yield return null;
-    }
-    private void SpawnBombAtOffset(Vector3 inOffset)
-    {
-        Instantiate(bombPrefab, transform.position + inOffset, Quaternion.identity);
     }
     private void SpawnBombTrail(float inBombSpacing, int inNumberOfBombs)
     {
@@ -94,7 +94,9 @@ public class Player : MonoBehaviour
 
             if (distance < inMaxRange)
             {
-                Debug.DrawLine(transform.position, asteroid.position);
+                Vector2 direction = (asteroid.position - transform.position).normalized;                
+
+                Debug.DrawLine(transform.position, (Vector2)transform.position + direction * inMaxRange);
             }
         }
     }
