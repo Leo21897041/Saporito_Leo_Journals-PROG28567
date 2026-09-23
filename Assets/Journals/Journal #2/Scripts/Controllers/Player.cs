@@ -7,6 +7,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
+    public Vector2 position;
+    public Vector2 direction;
+    public float moveSpeed;
     [Header("Default")]
     public Transform enemyTransform;
     public GameObject bombPrefab;
@@ -28,7 +31,6 @@ public class Player : MonoBehaviour
 
     [Header("Task 4")]
     public float maxRange = 2.5f;
-
     void Update()
     {
         if (Keyboard.current.bKey.wasPressedThisFrame && spawnBombCoroutine == null)
@@ -49,6 +51,9 @@ public class Player : MonoBehaviour
         }
 
         DetectAsteroids(maxRange, asteroidTransforms);
+
+        //Journal #3
+        PlayerMovement();
     }
     private void SpawnBombAtOffset(Vector3 inOffset)
     {
@@ -99,5 +104,35 @@ public class Player : MonoBehaviour
                 Debug.DrawLine(transform.position, (Vector2)transform.position + direction * inMaxRange);
             }
         }
+    }
+    private void PlayerMovement()
+    {
+        position = transform.position;
+
+        if (Keyboard.current.upArrowKey.isPressed)
+        {
+            direction = new Vector2(0, 1);
+        }
+        else if (Keyboard.current.downArrowKey.isPressed)
+        {
+            direction = new Vector2(0, -1);
+        }
+        else if (Keyboard.current.leftArrowKey.isPressed)
+        {
+            direction = new Vector2(-1, 0);
+        }
+        else if (Keyboard.current.rightArrowKey.isPressed)
+        {
+            direction = new Vector2(1, 0);
+        }
+        else
+        {
+            direction = Vector2.zero;
+
+        }
+
+        position += Time.deltaTime * direction * moveSpeed;
+
+        transform.position = position;
     }
 }
