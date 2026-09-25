@@ -7,19 +7,16 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Player : MonoBehaviour
 {
-    public Vector2 position;
-    public Vector2 direction;
-    public float moveSpeed;
     [Header("Default")]
     public Transform enemyTransform;
     public GameObject bombPrefab;
     public List<Transform> asteroidTransforms;
 
+    // <<--------------------- Journal #2 --------------------->> //
+    [Header ("Journal #2")]
     [Header("Task 1")]
-    //a)
     public float delay = 3f;
     private Coroutine spawnBombCoroutine;
-    //b)
     public float bombTrailSpacing;
     public int numOfTrailBombs;
 
@@ -31,8 +28,31 @@ public class Player : MonoBehaviour
 
     [Header("Task 4")]
     public float maxRange = 2.5f;
+
+    // <<--------------------- Journal #3 --------------------->> //
+    [Header ("Journal #3")]
+    [Header("Task 1")]
+    //a)
+    public Vector3 direction;
+    public Vector3 velocity;
+    //b)
+    public float acceleration;
+    public float accelerationTime;
+    public float maxSpeed;
+    //c)
+    public float deccelerationTime;
+    public float decceleration;
+    public float minSpeed;
+
+    private void Start()
+    {
+        acceleration = maxSpeed / accelerationTime;
+        decceleration = maxSpeed / deccelerationTime;
+    }
+    // UPDATE FUNCTION
     void Update()
     {
+        // <<--------------------- Journal #2 --------------------->> //
         if (Keyboard.current.bKey.wasPressedThisFrame && spawnBombCoroutine == null)
         {
             spawnBombCoroutine = StartCoroutine(SpawnBombAtOffsetUpdate());
@@ -41,20 +61,24 @@ public class Player : MonoBehaviour
         {
             SpawnBombTrail(bombTrailSpacing, numOfTrailBombs);
         }
-        else if (Keyboard.current.aKey.wasPressedThisFrame)
+        else if (Keyboard.current.gKey.wasPressedThisFrame)
         {
             WarpPlayer(enemyTransform, ratioValue);
         }
-        else if (Keyboard.current.dKey.wasPressedThisFrame)
+        else if (Keyboard.current.hKey.wasPressedThisFrame)
         {
             SpawnBombOnRandomCorner(cornerBombSpacing);
         }
-
         DetectAsteroids(maxRange, asteroidTransforms);
 
-        //Journal #3
+        // <<--------------------- Journal #3 --------------------->> //
         PlayerMovement();
     }
+
+
+
+
+    // <<--------------------- Journal #2 --------------------->> //
     private void SpawnBombAtOffset(Vector3 inOffset)
     {
         Instantiate(bombPrefab, transform.position + inOffset, Quaternion.identity);
@@ -105,34 +129,44 @@ public class Player : MonoBehaviour
             }
         }
     }
+
+
+
+
+    // <<--------------------- Journal #3 --------------------->> //
     private void PlayerMovement()
     {
-        position = transform.position;
+        
+        direction = Vector3.zero;            
+        
+        if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
+        {
+            direction += Vector3.up;
+        }
+        if (Keyboard.current.downArrowKey.isPressed || Keyboard.current.sKey.isPressed)
+        {
+            direction += Vector3.down;
+        }
+        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+        {
+            direction += Vector3.left;
+        }
+        if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+        {
+            direction += Vector3.right;
+        }
 
-        if (Keyboard.current.upArrowKey.isPressed)
+        if (velocity.magnitude > maxSpeed)
         {
-            direction = new Vector2(0, 1);
-        }
-        else if (Keyboard.current.downArrowKey.isPressed)
-        {
-            direction = new Vector2(0, -1);
-        }
-        else if (Keyboard.current.leftArrowKey.isPressed)
-        {
-            direction = new Vector2(-1, 0);
-        }
-        else if (Keyboard.current.rightArrowKey.isPressed)
-        {
-            direction = new Vector2(1, 0);
+            velocity = maxSpeed * direction;
         }
         else
         {
-            direction = Vector2.zero;
-
+            velocity += direction * acceleration * Time.deltaTime;                
         }
 
-        position += Time.deltaTime * direction * moveSpeed;
+        //if(direction )
 
-        transform.position = position;
+        transform.position += velocity * Time.deltaTime;
     }
 }
