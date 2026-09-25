@@ -158,11 +158,6 @@ public class Player : MonoBehaviour
             direction += Vector3.right;
         }
 
-        if (velocity.magnitude > maxSpeed)
-        {
-            velocity = maxSpeed * direction;
-        }
-
         if (!Keyboard.current.anyKey.isPressed)
         {
             velocity -= velocity.normalized * decceleration * Time.deltaTime;
@@ -171,6 +166,9 @@ public class Player : MonoBehaviour
         {
             velocity += direction * acceleration * Time.deltaTime;
         }
+
+        velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        velocity.y = Mathf.Clamp(velocity.y, -maxSpeed, maxSpeed);
 
         transform.position += velocity * Time.deltaTime;
     }
