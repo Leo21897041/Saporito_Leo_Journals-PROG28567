@@ -646,7 +646,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 164800845355225373}
-  - component: {fileID: 5749485833328937868}
   m_Layer: 0
   m_Name: Stars
   m_TagString: Untagged
@@ -676,24 +675,3 @@ Transform:
   - {fileID: 1637640514289541151}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5749485833328937868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9032696404556402549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e56a6fe5cb80984ea0622b663116246, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Stars
-  starTransforms:
-  - {fileID: 6552318329832757300}
-  - {fileID: 5885082916259610239}
-  - {fileID: 3551895290877116559}
-  - {fileID: 6388397855640172736}
-  - {fileID: 1603643875535678774}
-  - {fileID: 8171842533967069617}
-  - {fileID: 1637640514289541151}
-  drawingTime: 0.5
