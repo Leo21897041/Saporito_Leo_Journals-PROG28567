@@ -36,12 +36,14 @@ public class Player : MonoBehaviour
     public Vector3 direction;
     public Vector3 velocity;
     //b)
+    [Header ("Acceleration")]
     public float acceleration;
     public float accelerationTime;
     public float maxSpeed;
     //c)
-    public float deccelerationTime;
+    [Header ("Decceleration")]
     public float decceleration;
+    public float deccelerationTime;
     public float minSpeed;
 
     private void Start()
@@ -160,12 +162,15 @@ public class Player : MonoBehaviour
         {
             velocity = maxSpeed * direction;
         }
+
+        if (!Keyboard.current.anyKey.isPressed)
+        {
+            velocity -= velocity.normalized * decceleration * Time.deltaTime;
+        }
         else
         {
-            velocity += direction * acceleration * Time.deltaTime;                
+            velocity += direction * acceleration * Time.deltaTime;
         }
-
-        //if(direction )
 
         transform.position += velocity * Time.deltaTime;
     }
