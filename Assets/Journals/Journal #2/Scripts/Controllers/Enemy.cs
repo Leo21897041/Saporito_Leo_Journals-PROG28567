@@ -12,9 +12,6 @@ public class Enemy : MonoBehaviour
     [Header("Acceleration")]
     public float acceleration;
     public float accelerationTime;
-    public float lerpProgress;
-    public float lerpDuration;
-    public AnimationCurve animationCurve;
     [Header("Decceleration")]
     public float decceleration;
     public float deccelerationTime;
@@ -40,8 +37,7 @@ public class Enemy : MonoBehaviour
 
             velocity += direction * acceleration * Time.deltaTime;
 
-            //transform.position += Time.deltaTime * velocity;
-            transform.position = Vector3.Lerp(transform.position, playerTransform.position, animationCurve.Evaluate(lerpProgress / lerpDuration));
+            transform.position += Time.deltaTime * velocity;
         }
         else
         {
