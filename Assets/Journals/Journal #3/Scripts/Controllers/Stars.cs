@@ -40,11 +40,11 @@ public class Stars : MonoBehaviour
             if (startPosition == starTransforms[index].position)
             {
                 currentPosition = Vector3.Lerp(startPosition, endPosition, progress / drawingTime);
-                Debug.DrawLine(startPosition, currentPosition);
+                Debug.DrawLine(startPosition, currentPosition, Color.magenta);
                 
                 if (currentPosition == endPosition)
                 {
-                    Debug.DrawLine(startPosition, endPosition, Color.white, 5f - index);
+                    Debug.DrawLine(startPosition, endPosition, Color.magenta, 5f - index);
                 }
             }
         }
