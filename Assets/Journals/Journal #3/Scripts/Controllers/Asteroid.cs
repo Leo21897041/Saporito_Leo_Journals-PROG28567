@@ -14,7 +14,7 @@ public class Asteroid : MonoBehaviour
 
     void Start()
     {
-        randomPosition = new Vector3(Random.Range(-maxFloatDistance, maxFloatDistance), Random.Range(-maxFloatDistance, maxFloatDistance), 0);        
+        randomPosition = Camera.main.ScreenToWorldPoint(new Vector3(Random.Range(0, Screen.width), Random.Range(0, Screen.height), 0));
     }
 
     void Update()
