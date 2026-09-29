@@ -12,11 +12,11 @@ public class Player : MonoBehaviour
     public GameObject bombPrefab;
     public List<Transform> asteroidTransforms;
 
+    // <<--------------------- Journal #2 --------------------->> //
+    [Header ("Journal #2")]
     [Header("Task 1")]
-    //a)
     public float delay = 3f;
     private Coroutine spawnBombCoroutine;
-    //b)
     public float bombTrailSpacing;
     public int numOfTrailBombs;
 
@@ -29,8 +29,32 @@ public class Player : MonoBehaviour
     [Header("Task 4")]
     public float maxRange = 2.5f;
 
+    // <<--------------------- Journal #3 --------------------->> //
+    [Header ("Journal #3")]
+    [Header("Task 1")]
+    //a)
+    public Vector3 direction;
+    public Vector3 velocity;
+    //b)
+    [Header ("Acceleration")]
+    public float acceleration;
+    public float accelerationTime;
+    public float maxSpeed;
+    //c)
+    [Header ("Decceleration")]
+    public float decceleration;
+    public float deccelerationTime;
+    public float minSpeed;
+
+    private void Start()
+    {
+        acceleration = maxSpeed / accelerationTime;
+        decceleration = maxSpeed / deccelerationTime;
+    }
+    // UPDATE FUNCTION
     void Update()
     {
+        // <<--------------------- Journal #2 --------------------->> //
         if (Keyboard.current.bKey.wasPressedThisFrame && spawnBombCoroutine == null)
         {
             spawnBombCoroutine = StartCoroutine(SpawnBombAtOffsetUpdate());
@@ -39,17 +63,24 @@ public class Player : MonoBehaviour
         {
             SpawnBombTrail(bombTrailSpacing, numOfTrailBombs);
         }
-        else if (Keyboard.current.aKey.wasPressedThisFrame)
+        else if (Keyboard.current.gKey.wasPressedThisFrame)
         {
             WarpPlayer(enemyTransform, ratioValue);
         }
-        else if (Keyboard.current.dKey.wasPressedThisFrame)
+        else if (Keyboard.current.hKey.wasPressedThisFrame)
         {
             SpawnBombOnRandomCorner(cornerBombSpacing);
         }
-
         DetectAsteroids(maxRange, asteroidTransforms);
+
+        // <<--------------------- Journal #3 --------------------->> //
+        PlayerMovement();
     }
+
+
+
+
+    // <<--------------------- Journal #2 --------------------->> //
     private void SpawnBombAtOffset(Vector3 inOffset)
     {
         Instantiate(bombPrefab, transform.position + inOffset, Quaternion.identity);
@@ -99,5 +130,46 @@ public class Player : MonoBehaviour
                 Debug.DrawLine(transform.position, (Vector2)transform.position + direction * inMaxRange);
             }
         }
+    }
+
+
+
+
+    // <<--------------------- Journal #3 --------------------->> //
+    private void PlayerMovement()
+    {
+        
+        direction = Vector3.zero;            
+        
+        if (Keyboard.current.upArrowKey.isPressed || Keyboard.current.wKey.isPressed)
+        {
+            direction += Vector3.up;
+        }
+        if (Keyboard.current.downArrowKey.isPressed || Keyboard.current.sKey.isPressed)
+        {
+            direction += Vector3.down;
+        }
+        if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+        {
+            direction += Vector3.left;
+        }
+        if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+        {
+            direction += Vector3.right;
+        }
+
+        if (!Keyboard.current.anyKey.isPressed)
+        {
+            velocity -= velocity.normalized * decceleration * Time.deltaTime;
+        }
+        else
+        {
+            velocity += direction * acceleration * Time.deltaTime;
+        }
+
+        velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
+        velocity.y = Mathf.Clamp(velocity.y, -maxSpeed, maxSpeed);
+
+        transform.position += velocity * Time.deltaTime;
     }
 }
