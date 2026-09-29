@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Timeline;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 
@@ -46,6 +48,13 @@ public class Player : MonoBehaviour
     public float deccelerationTime;
     public float minSpeed;
 
+    public float angle;
+    public int currentIndex;
+    public float _radius;
+    public int _numberOfSides;
+    public float radarSpeed;
+
+
     private void Start()
     {
         acceleration = maxSpeed / accelerationTime;
@@ -75,6 +84,9 @@ public class Player : MonoBehaviour
 
         // <<--------------------- Journal #3 --------------------->> //
         PlayerMovement();
+
+        //PlayerRadar();
+        DrawRadar(_radius, _numberOfSides);
     }
 
 
@@ -171,5 +183,69 @@ public class Player : MonoBehaviour
         velocity.y = Mathf.Clamp(velocity.y, -maxSpeed, maxSpeed);
 
         transform.position += velocity * Time.deltaTime;
+    }
+    //Own
+    private void PlayerRadar()
+    {
+        if (angle < 360)
+        {
+            angle += Time.deltaTime * radarSpeed;
+            angle = angle % 360;
+        }
+
+/*        float yPos = Mathf.Sin(angleInRads);
+        float xPos = Mathf.Cos(angleInRads);
+        Vector3 offset = new Vector3(xPos * radius, yPos * radius, 0);*/
+        float angleInRads = angle * Mathf.Deg2Rad;
+
+        Vector3 pointOnCircle = new Vector3(Mathf.Sin(angleInRads), Mathf.Cos(angleInRads), 0) * _radius;
+
+        float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
+
+        if (distanceToEnemy < _radius)
+        {
+            Debug.DrawLine(transform.position, transform.position + pointOnCircle, Color.red);
+        }
+        else
+        {
+            Debug.DrawLine(transform.position, transform.position + pointOnCircle, Color.green);
+        }
+
+    }
+    //Prof
+    private void DrawRadar(float radius, int numberOfSides)
+    {
+        float stepAngle = 360f / numberOfSides;
+        List<Vector3> points = new();
+
+        stepAngle *= Mathf.Deg2Rad;
+        float currentAngle = stepAngle;
+
+        for (int i = 0; i < numberOfSides; i++)
+        {
+            float xPos = Mathf.Cos(currentAngle) * radius;
+            float yPos = Mathf.Sin(currentAngle) * radius;            
+
+            Vector3 newPoint = new Vector3(xPos, yPos);
+            points.Add(newPoint);
+
+            currentAngle += stepAngle;
+        }
+
+        for (int i = 0; i < numberOfSides - 1; i++)
+        {
+            Vector3 startPoint = points[i];
+            Vector3 endPoint = points[i + 1];
+
+            Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.green);
+
+            if (i == numberOfSides - 2)
+            {
+                endPoint = points[i + 1];
+                startPoint = points[0];
+
+                Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.green);
+            }
+        }
     }
 }
