@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
         // <<--------------------- Journal #3 --------------------->> //
         PlayerMovement();
 
-        //PlayerRadar();
+        PlayerRadar();
         DrawRadar(_radius, _numberOfSides);
     }
 
@@ -185,6 +185,7 @@ public class Player : MonoBehaviour
         transform.position += velocity * Time.deltaTime;
     }
     //Own
+
     private void PlayerRadar()
     {
         if (angle < 360)
@@ -212,7 +213,9 @@ public class Player : MonoBehaviour
         }
 
     }
+
     //Prof
+
     private void DrawRadar(float radius, int numberOfSides)
     {
         float stepAngle = 360f / numberOfSides;
@@ -237,15 +240,32 @@ public class Player : MonoBehaviour
             Vector3 startPoint = points[i];
             Vector3 endPoint = points[i + 1];
 
-            Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.green);
+            float distanceToEnemy = Vector3.Distance(transform.position, enemyTransform.position);
+
+            if (distanceToEnemy < radius)
+            {
+                Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.red);
+            }
+            else
+            {
+                Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.green);
+            }
 
             if (i == numberOfSides - 2)
             {
                 endPoint = points[i + 1];
                 startPoint = points[0];
 
-                Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.green);
+                if (distanceToEnemy < radius)
+                {
+                    Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.red);
+                }
+                else
+                {
+                    Debug.DrawLine(transform.position + startPoint, transform.position + endPoint, Color.green);
+                }
+
             }
         }
-    }
+    }  
 }
