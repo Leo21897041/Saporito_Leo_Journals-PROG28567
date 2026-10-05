@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
     public float deccelerationTime;
     public float minSpeed;
 
+    // <<--------------------- Journal #4 --------------------->> //
+    [Header ("Journal #4")]
     public float _radius;
     public float angle;
     public int currentIndex;
@@ -89,13 +91,12 @@ public class Player : MonoBehaviour
         PlayerMovement();
 
         // <<--------------------- Journal #4 --------------------->> //
-        //PlayerRadar();
-        DrawRadar(_radius, _numberOfSides);
-
         if (Keyboard.current.spaceKey.wasPressedThisFrame)
         {
             SpawnPowerUps(_radius, _numberOfPowerUps);            
         }
+        //PlayerRadar();
+        DrawRadar(_radius, _numberOfSides);
     }
 
 
@@ -193,6 +194,7 @@ public class Player : MonoBehaviour
 
         transform.position += velocity * Time.deltaTime;
     }
+
     // <<--------------------- Journal #4 --------------------->> //
     //Own
     private void PlayerRadar()
@@ -222,7 +224,6 @@ public class Player : MonoBehaviour
         }
 
     }
-
     //Prof
     private void DrawRadar(float radius, int numberOfSides)
     {

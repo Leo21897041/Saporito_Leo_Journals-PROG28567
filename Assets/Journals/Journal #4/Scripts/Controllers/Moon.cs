@@ -26,7 +26,7 @@ public class Moon : MonoBehaviour
     {
         angle += Time.deltaTime * speed;
 
-        pointOnCircle = new Vector3((Mathf.Cos(angle) * radius) * Mathf.Deg2Rad, (Mathf.Sin(angle) * radius) * Mathf.Deg2Rad, 0f);
+        pointOnCircle = new Vector3((Mathf.Cos(angle * Mathf.Deg2Rad) * radius), (Mathf.Sin(angle * Mathf.Deg2Rad) * radius), 0f);
 
         transform.position = target.position + pointOnCircle;
     }
