@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -48,11 +49,15 @@ public class Player : MonoBehaviour
     public float deccelerationTime;
     public float minSpeed;
 
+    // <<--------------------- Journal #4 --------------------->> //
+    [Header ("Journal #4")]
+    public float _radius;
     public float angle;
     public int currentIndex;
-    public float _radius;
     public int _numberOfSides;
     public float radarSpeed;
+    public int _numberOfPowerUps;
+    public GameObject powerUp;
 
 
     private void Start()
@@ -85,7 +90,12 @@ public class Player : MonoBehaviour
         // <<--------------------- Journal #3 --------------------->> //
         PlayerMovement();
 
-        PlayerRadar();
+        // <<--------------------- Journal #4 --------------------->> //
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            SpawnPowerUps(_radius, _numberOfPowerUps);            
+        }
+        //PlayerRadar();
         DrawRadar(_radius, _numberOfSides);
     }
 
@@ -184,8 +194,9 @@ public class Player : MonoBehaviour
 
         transform.position += velocity * Time.deltaTime;
     }
-    //Own
 
+    // <<--------------------- Journal #4 --------------------->> //
+    //Own
     private void PlayerRadar()
     {
         if (angle < 360)
@@ -213,9 +224,7 @@ public class Player : MonoBehaviour
         }
 
     }
-
     //Prof
-
     private void DrawRadar(float radius, int numberOfSides)
     {
         float stepAngle = 360f / numberOfSides;
@@ -267,5 +276,34 @@ public class Player : MonoBehaviour
 
             }
         }
-    }  
+    }
+    private void SpawnPowerUps(float radius, int numberOfPowerUps)
+    {
+        float angles = 360 / numberOfPowerUps;
+        List<Vector3> points = new();
+        float angleInRadians = angles * Mathf.Deg2Rad;
+        float stepAngle = angleInRadians;
+
+        for (int i = 0; i < numberOfPowerUps; i++)
+        {
+            float yPos = Mathf.Sin(angleInRadians) * radius;
+            float xPos = Mathf.Cos(angleInRadians) * radius;
+
+            Vector3 pointOnCircle = new Vector3(xPos, yPos, 0);
+
+            points.Add(pointOnCircle);
+
+            angleInRadians += stepAngle;
+        }
+
+        for (int i = 0; i < numberOfPowerUps - 1; i++)
+        {
+            Instantiate(powerUp, transform.position + points[i], Quaternion.identity);
+            
+            if (i == numberOfPowerUps - 2)
+            {
+                Instantiate(powerUp, transform.position + points[i + 1], Quaternion.identity);
+            }
+        }
+    }
 }
