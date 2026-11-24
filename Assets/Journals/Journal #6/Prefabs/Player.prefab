@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 2192700216347593220}
   - component: {fileID: 1237273784567325084}
   - component: {fileID: 7428298229329625348}
+  - component: {fileID: 8931789337318055601}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -234,7 +235,19 @@ MonoBehaviour:
     m_ActionId: 27c5f898-bc57-4ee1-8800-db469aca5fe3
     m_ActionName: 'Player/Crouch[/SwitchProControllerHID/buttonEast,/Keyboard/c]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7428298229329625348}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: f1ba0d36-48eb-4cd5-b651-1c94a6531f70
     m_ActionName: 'Player/Jump[/Keyboard/space,/SwitchProControllerHID/buttonSouth]'
   - m_PersistentCalls:
@@ -330,8 +343,8 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_AngularDamping: 0
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -403,12 +416,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   bc: {fileID: 0}
+  directionalInput: {x: 0, y: 0}
+  moveSpeed: 5
   layer:
     serializedVersion: 2
     m_Bits: 64
-  directionalInput: {x: 0, y: 0}
-  moveSpeed: 5
   lookDirection: 0
   belowPlayer: 0.15
-  isMoving: 0
-  isGrounded: 0
+  apexHeight: 10
+  apexTime: 2
+  jumpVelocity: 0
+  gravity: 0
+  doubleJump: 0
+--- !u!114 &8931789337318055601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8927549095852432977}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f57511e645ac774197ba90b80aba8e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerPROF
+  body2D: {fileID: 2192700216347593220}
+  maxSpeed: 5
+  accelerationTime: 0.25
+  decelerationTime: 0.15
+  apexHeight: 3.5
+  apexTime: 0.5
+  groundCheckOffset: 0.61
+  groundCheckSize: {x: 0.5, y: 0.1}
+  groundCheckMask:
+    serializedVersion: 2
+    m_Bits: 64

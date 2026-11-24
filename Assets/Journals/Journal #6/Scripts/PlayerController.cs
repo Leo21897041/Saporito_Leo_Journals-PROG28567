@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [Header("Deceleration")]
     public float deceleration;
     public float decelerationTime;*/
-    
+
     [Header("Player State")]
     public LayerMask layer;
     public float lookDirection;
@@ -34,17 +35,26 @@ public class PlayerController : MonoBehaviour
         left, right
     }
 
+    [Header("Jumping")]
+    public float apexHeight;
+    public float apexTime;
+    public float jumpVelocity;
+    public float gravity;
+    public bool doubleJump;
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
 
-/*        acceleration = rb.mass / accelerationTime;
-        deceleration = rb.mass / decelerationTime;*/
+        gravity = -2 * apexHeight / (apexTime * Mathf.Exp(2));
+        jumpVelocity = 2 * apexHeight / apexTime;
     }
 
     void FixedUpdate()
     {
+
         Vector2 playerInput = new Vector2(directionalInput.x, 0f);
 
         // The input from the player needs to be determined and
@@ -102,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         Debug.DrawRay(transform.position, Vector2.down * (bc.bounds.extents.y + belowPlayer), Color.magenta);*/
         
-        isGrounded = hit.collider != null;        
+        isGrounded = hit.collider != null;
 
         return isGrounded;
     }
@@ -124,5 +134,16 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         directionalInput = context.ReadValue<Vector2>();
+    }
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && isGrounded || context.performed && doubleJump)
+        {
+            JumpMechanic();
+        }
+    }
+    public void JumpMechanic()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y - jumpVelocity * gravity);
     }
 }
