@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         bc = GetComponent<BoxCollider2D>();
 
-        gravity = -2 * apexHeight / (apexTime * Mathf.Exp(2));
+        gravity = -2 * apexHeight / Mathf.Pow(apexTime, 2);
         jumpVelocity = 2 * apexHeight / apexTime;
     }
 
